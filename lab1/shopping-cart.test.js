@@ -11,8 +11,7 @@ describe('ShoppingCart', () => {
     beforeEach(() => {
         cart = new ShoppingCart();
     });
-
-
+    
     describe('addProduct', () => {
         it('should add a new product to the cart', () => {
             const product = new Product('Apple', 1.5);
