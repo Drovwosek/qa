@@ -1,4 +1,4 @@
- class ShoppingCart {
+ export class ShoppingCart {
   constructor() {
     this.items = [];
     this.total = 0;
