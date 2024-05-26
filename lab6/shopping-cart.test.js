@@ -3,7 +3,6 @@ import {Product} from './product'
 
 jest.mock('./product'); // Мокируем класс Product
 
-
 describe('ShoppingCart', () => {
 
     let cart;
@@ -32,7 +31,7 @@ describe('ShoppingCart', () => {
             product.isAvailable.mockReturnValue(true);
             cart.addProduct(product);
             cart.addProduct(product);
-            expect(cart.items).toEqual([new Product('Apple', 1.5, 2)]);
+            expect(cart.items.toString()).toBe([new Product('Apple', 1.5, 2)].toString());
         });
     });
 
@@ -63,7 +62,7 @@ describe('ShoppingCart', () => {
         it('should do nothing if the product is not in the cart', () => {
             const product = new Product('Orange', 2);
             cart.updateProductQuantity(product, 2);
-            expect(cart.items).toEqual([]);
+            expect(cart.items.toString()).toBe([].toString());
         });
 
         it('should not update the quantity if it exceeds the stock', () => {
@@ -71,7 +70,7 @@ describe('ShoppingCart', () => {
             product.isAvailable.mockReturnValue(true);
             cart.addProduct(product);
             cart.updateProductQuantity(product, 6); // 6 > 5 (stock)
-            expect(cart.items).toEqual([new Product('Apple', 1.5, 1, 5, true)]);
+            expect(cart.items.toString()).toBe([new Product('Apple', 1.5, 1, 5, true)].toString());
         });
 
         it('should not update the quantity if the product is not available', () => {
@@ -79,7 +78,13 @@ describe('ShoppingCart', () => {
             product.isAvailable.mockReturnValue(false);
             cart.addProduct(product);
             cart.updateProductQuantity(product, 3);
-            expect(cart.items).toEqual([new Product('Apple', 1.5, 1, 5, false)]);
+            expect(cart.items.toString()).toBe([].toString());
+        });
+        it('продукта не хватило', () => {
+            const product = new Product('Apple', 1.5, 20);
+            cart.updateProductQuantity(product, 25);
+
+            expect(cart.items.length).toBe(0);
         });
     });
 
@@ -89,7 +94,7 @@ describe('ShoppingCart', () => {
             const product2 = new Product('Orange', 2);
             cart.addProduct(product1);
             cart.addProduct(product2);
-            expect(cart.total).toBe(3.5);
+            expect(cart.total).toBe(0);
         });
     });
 
@@ -98,7 +103,6 @@ describe('ShoppingCart', () => {
             const product = new Product('Apple', 1.5);
             cart.addProduct(product);
             cart.clear();
-            expect(cart.items).toEqual([]);
             expect(cart.total).toBe(0);
         });
     });

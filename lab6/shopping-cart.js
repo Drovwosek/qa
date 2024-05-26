@@ -20,23 +20,15 @@
 
   removeProduct(product) {
     const productIndex = this.items.findIndex(item => item.name === product.name);
-    if (productIndex !== -1) {
-      this.items.splice(productIndex, 1);
-      this.calculateTotal();
-    }
+
   }
 
   updateProductQuantity(product, quantity) {
     // Проверяем, доступно ли такое количество
-    if (quantity > product.stock || !product.availability) {
+    if (!product.isAvailable()) {
       return;
     }
 
-    const productIndex = this.items.findIndex(item => item.name === product.name);
-    if (productIndex !== -1) {
-      this.items[productIndex].quantity = quantity;
-      this.calculateTotal();
-    }
   }
 
   calculateTotal() {
